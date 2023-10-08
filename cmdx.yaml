@@ -23,8 +23,12 @@ tasks:
   usage: release the new version
   script: |
     set -eux
-    git tag -m "chore: release {{.version}}" "{{.version}}"
-    git push origin "{{.version}}"
+    go run ./cmd/mkghtag \
+      -owner suzuki-shunsuke \
+      -repo mkghtag \
+      -sha "$(git rev-parse HEAD)" \
+      -msg "chore: release {{.version}}" "{{.version}}" \
+      "{{.version}}"
   args:
   - name: version
     required: true
