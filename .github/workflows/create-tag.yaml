@@ -9,8 +9,6 @@ permissions: {}
 jobs:
   create-tag:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
@@ -25,6 +23,10 @@ jobs:
         with:
           app_id: ${{secrets.APP_ID}}
           private_key: ${{secrets.APP_PRIVATE_KEY}}
+          permissions: >-
+            {"contents": "write"}
+          repositories: >-
+            ["suzuki-shunsuke/mkghtag"]
 
       - run: |
           go run ./cmd/mkghtag -msg "chore: release $TAG" "$TAG"
