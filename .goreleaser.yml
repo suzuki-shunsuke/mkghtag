@@ -71,3 +71,12 @@ brews:
     # Default is empty.
     test: |
       system "#{bin}/mkghtag --version"
+
+scoops:
+  -
+    description: CLI to create GitHub Tags via API
+    license: MIT
+    skip_upload: auto
+    repository:
+      owner: suzuki-shunsuke
+      name: scoop-bucket
