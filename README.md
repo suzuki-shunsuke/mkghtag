@@ -7,6 +7,8 @@ CLI to create GitHub Tags via API
 - Homebrew
 - [aqua](https://aquaproj.github.io/)
 - [GitHub Releases](https://github.com/suzuki-shunsuke/mkghtag/releases)
+- Windows
+  - [Scoop](https://scoop.sh/)
 
 ```sh
 brew install suzuki-shunsuke/mkghtag/mkghtag
@@ -14,6 +16,11 @@ brew install suzuki-shunsuke/mkghtag/mkghtag
 
 ```sh
 aqua g -i suzuki-shunsuke/mkghtag
+```
+
+```sh
+scoop bucket add suzuki-shunsuke https://github.com/suzuki-shunsuke/scoop-bucket
+scoop install mkghtag
 ```
 
 ## Usage
