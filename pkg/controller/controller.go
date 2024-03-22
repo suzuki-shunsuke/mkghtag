@@ -54,7 +54,7 @@ func (c *Controller) Run(ctx context.Context, logE *logrus.Entry, param *ParamRu
 
 	logE.Info("creating a reference")
 	_, _, err := c.gh.CreateRef(ctx, param.Owner, param.Repo, &github.Reference{
-		Ref: stringP(fmt.Sprintf("refs/tags/%s", param.Tag)),
+		Ref: stringP("refs/tags/" + param.Tag),
 		Object: &github.GitObject{
 			SHA: stringP(param.SHA),
 		},
