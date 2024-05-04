@@ -23,8 +23,6 @@ github.com/suzuki-shunsuke/go-ci-env/v3 v3.0.1 h1:deCm9of48iwRq0Axg3ne8mx/26h3ok
 github.com/suzuki-shunsuke/go-ci-env/v3 v3.0.1/go.mod h1:VmLj5u0w7Yf/IJIzZ+TWiB7mVT3pRKPMeb0Jssk7YsA=
 github.com/suzuki-shunsuke/logrus-error v0.1.4 h1:nWo98uba1fANHdZ9Y5pJ2RKs/PpVjrLzRp5m+mRb9KE=
 github.com/suzuki-shunsuke/logrus-error v0.1.4/go.mod h1:WsVvvw6SKSt08/fB2qbnsKIMJA4K1MYCUprqsBJbMiM=
-golang.org/x/oauth2 v0.19.0 h1:9+E/EZBCbTLNrbN35fHv/a/d/mOBatymz1zbtQrXpIg=
-golang.org/x/oauth2 v0.19.0/go.mod h1:vYi7skDa1x015PmRRYZ7+s1cWyPgrPiSYRe4rnsexc8=
 golang.org/x/oauth2 v0.20.0 h1:4mQdhULixXKP1rwYBW0vAijoXnkTG0BLCDRzfe1idMo=
 golang.org/x/oauth2 v0.20.0/go.mod h1:XYTD2NtWslqkgxebSiOHnXEap4TF09sJSc7H1sXbhtI=
 golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
