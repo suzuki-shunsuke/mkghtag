@@ -6,7 +6,7 @@ on:
       - main
 permissions: {}
 jobs:
-  path-filter:
+  ossf-scorecard:
     runs-on: ubuntu-latest
     permissions:
       # Needed for Code scanning upload
