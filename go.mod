@@ -6,7 +6,7 @@ require (
 	github.com/google/go-github/v62 v62.0.0
 	github.com/mattn/go-colorable v0.1.13
 	github.com/sirupsen/logrus v1.9.3
-	github.com/suzuki-shunsuke/go-ci-env/v3 v3.0.1
+	github.com/suzuki-shunsuke/go-ci-env/v3 v3.1.0
 	github.com/suzuki-shunsuke/logrus-error v0.1.4
 	golang.org/x/oauth2 v0.21.0
 )
