@@ -3,7 +3,7 @@ module github.com/suzuki-shunsuke/mkghtag
 go 1.21
 
 require (
-	github.com/google/go-github/v63 v63.0.0
+	github.com/google/go-github/v65 v65.0.0
 	github.com/mattn/go-colorable v0.1.13
 	github.com/sirupsen/logrus v1.9.3
 	github.com/suzuki-shunsuke/go-ci-env/v3 v3.1.0
