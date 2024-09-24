@@ -6,7 +6,7 @@ on:
 permissions: {}
 jobs:
   release:
-    uses: suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@feat-github-artifact-attestations
+    uses: suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@7f97a226912ee2978126019b1e95311d7d15c97a # v2.0.0
     with:
       homebrew: true
       go-version-file: go.mod
