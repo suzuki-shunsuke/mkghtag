@@ -1,8 +1,13 @@
 ---
-name: update-aqua-checksums
-on: workflow_call
+name: gofumpt
+on:
+  workflow_call:
+    inputs:
+      files:
+        type: string
+        required: true
 jobs:
-  update-aqua-checksums:
+  gofumpt:
     runs-on: ubuntu-24.04
     permissions: {}
     timeout-minutes: 10
@@ -13,8 +18,17 @@ jobs:
       - uses: aquaproj/aqua-installer@e2d0136abcf70b7a2f6f505720640750557c4b33 # v3.1.1
         with:
           aqua_version: v2.43.0
-      - run: aqua upc -prune
+      - run: gofumpt -version
+      - run: |
+          if [ -n "${FILES:-}" ]; then
+            # shellcheck disable=SC2086
+            gofumpt -l -w $FILES
+            exit 0
+          fi
+          git ls-files | grep -E "\.go$" | xargs gofumpt -l -w
+        env:
+          FILES: ${{ inputs.files }}
       - uses: autofix-ci/action@2891949f3779a1cafafae1523058501de3d4e944 # v1.3.1
         with:
           commit-message: |
-            chore(aqua): update checksums
+            style(go): format code by gofumpt
