@@ -19,8 +19,15 @@ jobs:
         with:
           aqua_version: v2.43.0
       - run: gofumpt -version
-      - run: gofumpt -l -w $FILES
+      - run: |
+          if [ -n "${FILES:-}"]; then
+            gofumpt -l -w $FILES
+            exit 0
+          fi
+          git ls-files | grep -E "\.go$" | xargs gofumpt -l -w
         env:
           FILES: ${{ inputs.files }}
       - uses: autofix-ci/action@2891949f3779a1cafafae1523058501de3d4e944 # v1.3.1
-
+        with:
+          commit-message: |
+            style(go): format code by gofumpt
