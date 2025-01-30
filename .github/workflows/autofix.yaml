@@ -35,7 +35,7 @@ jobs:
               - .github/workflows/autofix.yaml
               - .github/workflows/wc-gofumpt.yaml
 
-  status-check:
+  autofix-status-check:
     # This job is used for main branch's branch protection rule's status check.
     # If all dependent jobs succeed or are skipped this job succeeds.
     timeout-minutes: 30
