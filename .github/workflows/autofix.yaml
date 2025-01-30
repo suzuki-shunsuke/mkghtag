@@ -9,8 +9,8 @@ jobs:
     outputs:
       update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
       go-mod-tidy: ${{steps.changes.outputs.go-mod-tidy}}
+      gofumpt_files: ${{steps.changes.outputs.gofumpt_go_files}}
       gofumpt: ${{steps.changes.outputs.gofumpt}}
-      gofumpt_files: ${{steps.changes.outputs.gofumpt_files}}
     runs-on: ubuntu-24.04
     permissions: {}
     steps:
@@ -31,6 +31,8 @@ jobs:
               - "**.go"
               - .github/workflows/autofix.yaml
               - .github/workflows/wc-go-mod-tidy.yaml
+            gofumpt_go:
+              - "**.go"
             gofumpt:
               - "**.go"
               - .github/workflows/autofix.yaml
