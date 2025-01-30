@@ -10,6 +10,7 @@ jobs:
       update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
       go-mod-tidy: ${{steps.changes.outputs.go-mod-tidy}}
       gofumpt: ${{steps.changes.outputs.gofumpt}}
+      gofumpt_files: ${{steps.changes.outputs.gofumpt_files}}
     runs-on: ubuntu-24.04
     permissions: {}
     steps:
