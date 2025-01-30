@@ -2,9 +2,10 @@
 name: gofumpt
 on:
   workflow_call:
-    files:
-      type: string
-      required: true
+    inputs:
+      files:
+        type: string
+        required: true
 jobs:
   gofumpt:
     runs-on: ubuntu-24.04
