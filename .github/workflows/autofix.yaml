@@ -7,10 +7,7 @@ jobs:
     # Get changed files to filter jobs
     timeout-minutes: 10
     outputs:
-      update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
-      go-mod-tidy: ${{steps.changes.outputs.go-mod-tidy}}
       gofumpt_files: ${{steps.changes.outputs.gofumpt_go_files}}
-      gofumpt: ${{steps.changes.outputs.gofumpt}}
     runs-on: ubuntu-24.04
     permissions: {}
     steps:
@@ -19,55 +16,28 @@ jobs:
         with:
           list-files: shell
           filters: |
-            update-aqua-checksums:
-              - aqua/aqua.yaml
-              - aqua/imports/*.yaml
-              - aqua/aqua-checksums.json
-              - .github/workflows/autofix.yaml
-              - .github/workflows/wc-update-aqua-checksums.yaml
-            go-mod-tidy:
-              - go.mod
-              - go.sum
-              - "**.go"
-              - .github/workflows/autofix.yaml
-              - .github/workflows/wc-go-mod-tidy.yaml
             gofumpt_go:
               - "**.go"
-            gofumpt:
-              - "**.go"
-              - .github/workflows/autofix.yaml
-              - .github/workflows/wc-gofumpt.yaml
 
   autofix-status-check:
     # This job is used for main branch's branch protection rule's status check.
     # If all dependent jobs succeed or are skipped this job succeeds.
-    timeout-minutes: 30
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     permissions: {}
     if: failure()
     steps:
       - run: exit 1
     needs:
-      - update-aqua-checksums
-      - go-mod-tidy
-      - gofumpt
+      - fix
 
-  update-aqua-checksums:
-    uses: ./.github/workflows/wc-update-aqua-checksums.yaml
+  fix:
+    runs-on: ubuntu-24.04
     needs: path-filter
-    if: needs.path-filter.outputs.update-aqua-checksums == 'true'
     permissions: {}
-
-  go-mod-tidy:
-    uses: ./.github/workflows/wc-go-mod-tidy.yaml
-    needs: path-filter
-    if: needs.path-filter.outputs.go-mod-tidy == 'true'
-    permissions: {}
-
-  gofumpt:
-    uses: ./.github/workflows/wc-gofumpt.yaml
-    needs: path-filter
-    if: needs.path-filter.outputs.gofumpt == 'true'
-    permissions: {}
-    with:
-      files: ${{needs.path-filter.outputs.gofumpt_files}}
+    timeout-minutes: 15
+    steps:
+      - uses: suzuki-shunsuke/go-autofix-action@b35d4bac39ebfe7f66aa12e2070f4af51582641f # v0.1.0
+        with:
+          aqua_version: v2.43.0
+          files: ${{needs.path-filter.outputs.gofumpt_files}}
