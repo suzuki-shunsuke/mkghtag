@@ -18,11 +18,14 @@ type GitHub interface {
 	CreateTag(ctx context.Context, owner string, repo string, tag *github.Tag) (*github.Tag, *github.Response, error)
 }
 
-func New(ctx context.Context) *Controller {
-	gh := github.New(ctx)
+func New(ctx context.Context, url string) (*Controller, error) {
+	gh, err := github.New(ctx, url)
+	if err != nil {
+		return nil, err //nolint:wrapcheck
+	}
 	return &Controller{
 		gh: gh.Git,
-	}
+	}, nil
 }
 
 type ParamRun struct {

@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"os"
 	"strings"
 
 	"github.com/sirupsen/logrus"
@@ -49,6 +50,7 @@ type Flags struct {
 	Owner       string
 	Repo        string
 	SHA         string
+	GHEBaseURL  string
 	Msg         string
 	LogLevel    string
 	Tag         string
@@ -61,6 +63,7 @@ func setFlagVars(fs *flag.FlagSet, flags *Flags) {
 	fs.StringVar(&flags.Owner, "owner", "", "GitHub Repository owner")
 	fs.StringVar(&flags.Repo, "repo", "", "GitHub Repository name or full name <owner>/<repo>")
 	fs.StringVar(&flags.SHA, "sha", "", "Commit hash")
+	fs.StringVar(&flags.GHEBaseURL, "ghe-base-url", "", "GitHub Enterprise Base URL (e.g. https://github.example.com)")
 
 	fs.StringVar(&flags.Msg, "msg", "", "Tag message")
 	fs.BoolVar(&flags.LightWeight, "light", false, "Create a lightweight tag")
@@ -156,6 +159,11 @@ Options:
 		}
 	}
 
+	// https://github.com/suzuki-shunsuke/github-comment/issues/1489
+	if flags.GHEBaseURL == "" {
+		flags.GHEBaseURL = os.Getenv("GITHUB_API_URL")
+	}
+
 	logE := r.LogE.WithFields(logrus.Fields{
 		"repo_owner": flags.Owner,
 		"repo_name":  flags.Repo,
@@ -163,7 +171,10 @@ Options:
 		"tag":        flags.Tag,
 	})
 
-	ctrl := controller.New(ctx)
+	ctrl, err := controller.New(ctx, flags.GHEBaseURL)
+	if err != nil {
+		return err //nolint:wrapcheck
+	}
 	log.SetLevel(flags.LogLevel, logE)
 	param := &controller.ParamRun{
 		Owner:       flags.Owner,
