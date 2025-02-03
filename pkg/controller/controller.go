@@ -21,7 +21,7 @@ type GitHub interface {
 func New(ctx context.Context, url string) (*Controller, error) {
 	gh, err := github.New(ctx, url)
 	if err != nil {
-		return nil, err
+		return nil, err //nolint:wrapcheck
 	}
 	return &Controller{
 		gh: gh.Git,

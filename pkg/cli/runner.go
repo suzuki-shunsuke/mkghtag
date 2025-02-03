@@ -173,7 +173,7 @@ Options:
 
 	ctrl, err := controller.New(ctx, flags.GHEBaseURL)
 	if err != nil {
-		return err
+		return err //nolint:wrapcheck
 	}
 	log.SetLevel(flags.LogLevel, logE)
 	param := &controller.ParamRun{
