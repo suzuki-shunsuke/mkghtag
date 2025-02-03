@@ -25,7 +25,7 @@ func New(ctx context.Context, url string) (*Client, error) {
 	if url != "" {
 		client, err := github.NewClient(getHTTPClientForGitHub(ctx, getGitHubToken())).WithEnterpriseURLs(url, url)
 		if err != nil {
-			return nil, fmt.Errorf("failed to create a GHES client: %w", err)
+			return nil, fmt.Errorf("create a GHES client: %w", err)
 		}
 		return client, nil
 	}
