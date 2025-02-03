@@ -20,8 +20,15 @@ type (
 	Tag           = github.Tag
 )
 
-func New(ctx context.Context) *Client {
-	return github.NewClient(getHTTPClientForGitHub(ctx, getGitHubToken()))
+func New(ctx context.Context, url string) (*Client, error) {
+	if url != "" {
+		client, err := github.NewClient(getHTTPClientForGitHub(ctx, getGitHubToken())).WithEnterpriseURLs(url, url)
+		if err != nil {
+			return nil, err
+		}
+		return client, nil
+	}
+	return github.NewClient(getHTTPClientForGitHub(ctx, getGitHubToken())), nil
 }
 
 func getGitHubToken() string {
