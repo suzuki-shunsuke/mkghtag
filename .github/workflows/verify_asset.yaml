@@ -17,6 +17,7 @@ jobs:
       # Notify the release failure
       - if: github.event.workflow_run.conclusion != 'success'
         env:
+          GH_TOKEN: ${{github.token}}
           ISSUE_NUMBER: "687"
           URL: ${{github.event.workflow_run.html_url}}
         run: |
@@ -63,6 +64,7 @@ jobs:
           done
       - if: failure() || cancelled()
         env:
+          GH_TOKEN: ${{github.token}}
           ISSUE_NUMBER: "687"
           URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
         run: |
