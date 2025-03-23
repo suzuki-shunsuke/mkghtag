@@ -1,0 +1,73 @@
+---
+name: Verify Asset
+run-name: Verify Asset ${{github.event.workflow_run.head_branch}}
+on:
+  workflow_run:
+    workflows: ["Release"]
+    types:
+      - completed
+jobs:
+  verify-asset:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      # Notify the release failure
+      - if: github.event.workflow_run.conclusion != 'success'
+        env:
+          ISSUE_NUMBER: "687"
+          URL: ${{github.event.workflow_run.html_url}}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" -R "$GITHUB_REPOSITORY" -b ":x: [Release failed.]($URL)"
+      - uses: aquaproj/aqua-installer@e2d0136abcf70b7a2f6f505720640750557c4b33 # v3.1.1
+        with:
+          aqua_verison: v2.46.0
+      # Download assets from the release
+      - env:
+          GH_TOKEN: ${{github.token}}
+          VERSION: ${{github.event.workflow_run.head_branch}}
+        run: |
+          gh release download -R "$GITHUB_REPOSITORY" "$VERSION"
+      # Verify assets using Cosign
+      - env:
+          VERSION: ${{github.event.workflow_run.head_branch}}
+        run: |
+          checksum_file=$(find . -name '*_checksums.txt')
+          for asset in *.tar.gz *.zip; do
+            cosign verify-blob \
+              --signature "${checksum_file}.sig" \
+              --certificate "${checksum_file}.pem" \
+              --certificate-identity-regexp 'https://github\.com/suzuki-shunsuke/go-release-workflow/\.github/workflows/release\.yaml@.*' \
+              --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+              "$checksum_file"
+            cat "$checksum_file" | sha256sum -c -
+          done
+      # Verify assets using SLSA Provenance
+      - env:
+          VERSION: ${{github.event.workflow_run.head_branch}}
+        run: |
+          for asset in *.tar.gz *.zip; do
+            slsa-verifier verify-artifact "$asset" \
+              --provenance-path multiple.intoto.jsonl \
+              --source-uri "github.com/$GITHUB_REPOSITORY" \
+              --source-tag "$VERSION"
+          done
+      # Verify assets using GitHub Attestation
+      - env:
+          GH_TOKEN: ${{github.token}}
+          VERSION: ${{github.event.workflow_run.head_branch}}
+        run: |
+          for asset in *.tar.gz *.zip; do
+            gh attestation verify "$asset" \
+              -R "$GITHUB_REPOSITORY" \
+              --soruce-ref "refs/tags/$VERSION" \
+              --signer-workflow suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml
+          done
+      - if: failure() || cancelled()
+        env:
+          ISSUE_NUMBER: "1"
+          URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" -R "$GITHUB_REPOSITORY" -b ":x: [Release verification failed.]($URL)"
