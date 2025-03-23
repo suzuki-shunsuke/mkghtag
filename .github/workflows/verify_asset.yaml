@@ -22,46 +22,12 @@ jobs:
           URL: ${{github.event.workflow_run.html_url}}
         run: |
           gh issue comment "$ISSUE_NUMBER" -R "$GITHUB_REPOSITORY" -b ":x: [Release failed.]($URL)"
-      - uses: aquaproj/aqua-installer@e2d0136abcf70b7a2f6f505720640750557c4b33 # v3.1.1
+
+      - uses: suzuki-shunsuke/verify-go-asset-action@228ff32b5c0cd72ec2816940c9777ee4c5f58650 # v0.1.0-0
         with:
-          aqua_verison: v2.46.0
-      # Download assets from the release
-      - env:
-          GH_TOKEN: ${{github.token}}
-          VERSION: ${{github.event.workflow_run.head_branch}}
-        run: |
-          gh release download -R "$GITHUB_REPOSITORY" "$VERSION"
-      # Verify assets using Cosign
-      - run: |
-          checksum_file=$(find . -name '*_checksums.txt')
-          cosign verify-blob \
-            --signature "${checksum_file}.sig" \
-            --certificate "${checksum_file}.pem" \
-            --certificate-identity-regexp 'https://github\.com/suzuki-shunsuke/go-release-workflow/\.github/workflows/release\.yaml@.*' \
-            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
-            "$checksum_file"
-          sha256sum -c - < "$checksum_file"
-      # Verify assets using SLSA Provenance
-      - env:
-          VERSION: ${{github.event.workflow_run.head_branch}}
-        run: |
-          for asset in *.tar.gz *.zip; do
-            slsa-verifier verify-artifact "$asset" \
-              --provenance-path multiple.intoto.jsonl \
-              --source-uri "github.com/$GITHUB_REPOSITORY" \
-              --source-tag "$VERSION"
-          done
-      # Verify assets using GitHub Attestation
-      - env:
-          GH_TOKEN: ${{github.token}}
-          VERSION: ${{github.event.workflow_run.head_branch}}
-        run: |
-          for asset in *.tar.gz *.zip; do
-            gh attestation verify "$asset" \
-              -R "$GITHUB_REPOSITORY" \
-              --soruce-ref "refs/tags/$VERSION" \
-              --signer-workflow suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml
-          done
+          version: ${{github.event.workflow_run.head_branch}}
+
+      # Notify this workflow run's failure
       - if: failure() || cancelled()
         env:
           GH_TOKEN: ${{github.token}}
