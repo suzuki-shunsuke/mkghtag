@@ -31,19 +31,15 @@ jobs:
         run: |
           gh release download -R "$GITHUB_REPOSITORY" "$VERSION"
       # Verify assets using Cosign
-      - env:
-          VERSION: ${{github.event.workflow_run.head_branch}}
-        run: |
+      - run: |
           checksum_file=$(find . -name '*_checksums.txt')
-          for asset in *.tar.gz *.zip; do
-            cosign verify-blob \
-              --signature "${checksum_file}.sig" \
-              --certificate "${checksum_file}.pem" \
-              --certificate-identity-regexp 'https://github\.com/suzuki-shunsuke/go-release-workflow/\.github/workflows/release\.yaml@.*' \
-              --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
-              "$checksum_file"
-            cat "$checksum_file" | sha256sum -c -
-          done
+          cosign verify-blob \
+            --signature "${checksum_file}.sig" \
+            --certificate "${checksum_file}.pem" \
+            --certificate-identity-regexp 'https://github\.com/suzuki-shunsuke/go-release-workflow/\.github/workflows/release\.yaml@.*' \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            "$checksum_file"
+          sha256sum -c - < "$checksum_file"
       # Verify assets using SLSA Provenance
       - env:
           VERSION: ${{github.event.workflow_run.head_branch}}
