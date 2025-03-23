@@ -67,7 +67,7 @@ jobs:
           done
       - if: failure() || cancelled()
         env:
-          ISSUE_NUMBER: "1"
+          ISSUE_NUMBER: "687"
           URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
         run: |
           gh issue comment "$ISSUE_NUMBER" -R "$GITHUB_REPOSITORY" -b ":x: [Release verification failed.]($URL)"
