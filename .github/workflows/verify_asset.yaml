@@ -23,7 +23,7 @@ jobs:
         run: |
           gh issue comment "$ISSUE_NUMBER" -R "$GITHUB_REPOSITORY" -b ":x: [Release failed.]($URL)"
 
-      - uses: suzuki-shunsuke/verify-go-asset-action@v0.1.0-0
+      - uses: suzuki-shunsuke/verify-go-asset-action@228ff32b5c0cd72ec2816940c9777ee4c5f58650 # v0.1.0-0
         with:
           version: ${{github.event.workflow_run.head_branch}}
 
