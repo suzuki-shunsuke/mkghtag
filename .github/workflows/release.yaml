@@ -6,7 +6,7 @@ on:
 permissions: {}
 jobs:
   release:
-    uses: suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@7f97a226912ee2978126019b1e95311d7d15c97a # v2.0.0
+    uses: suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@feat-use-environment
     with:
       homebrew: true
       go-version-file: go.mod
@@ -17,9 +17,7 @@ jobs:
           "homebrew-${{github.event.repository.name}}",
           "scoop-bucket"
         ]
-    secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+    secrets: inherit
     permissions:
       contents: write
       id-token: write
