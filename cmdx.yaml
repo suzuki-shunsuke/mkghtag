@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/suzuki-shunsuke/cmdx/v2.0.0/json-schema/cmdx.json
 # the configuration file of cmdx - task runner
 # https://github.com/suzuki-shunsuke/cmdx
 tasks:
@@ -22,18 +23,14 @@ tasks:
   description: release the new version
   usage: release the new version
   script: |
-    set -eux
-    go run ./cmd/mkghtag \
-      -owner suzuki-shunsuke \
-      -repo mkghtag \
-      -sha "$(git rev-parse HEAD)" \
-      -msg "chore: release {{.version}}" "{{.version}}" \
-      "{{.version}}"
+    rgo "$VERSION"
   args:
-  - name: version
-    required: true
-    validate:
-    - regexp: "^v\\d+\\.\\d+.\\d+(-.+)?$"
+    - name: version
+      required: true
+      validate:
+        - regexp: "^v\\d+\\.\\d+.\\d+(-.+)?$"
+      script_envs:
+        - VERSION
 - name: coverage
   short: c
   description: coverage test
