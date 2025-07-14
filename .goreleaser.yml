@@ -39,7 +39,7 @@ signs:
       - --oidc-provider
       - github
       - ${artifact}
-brews:
+homebrew_casks:
   -
     # NOTE: make sure the url_template, the token and given repo (github or gitlab) owner and name are from the
     # same kind. We will probably unify this in the next major version like it is done with scoop.
@@ -68,11 +68,6 @@ brews:
     # Default is false.
     skip_upload: true
 
-    # So you can `brew test` your formula.
-    # Default is empty.
-    test: |
-      system "#{bin}/mkghtag --version"
-
 scoops:
   -
     description: CLI to create GitHub Tags via API
@@ -82,3 +77,7 @@ scoops:
       owner: suzuki-shunsuke
       name: scoop-bucket
       token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+
+sboms:
+  - id: default
+    disable: false
