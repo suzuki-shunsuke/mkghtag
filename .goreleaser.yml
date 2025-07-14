@@ -1,8 +1,13 @@
 ---
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
 version: 2
 project_name: mkghtag
 archives:
   - name_template: "{{.ProjectName}}_{{.Os}}_{{.Arch}}"
+    files:
+      - LICENSE
+      - README.md
+      - third_party_licenses/**/*
     format_overrides:
       - goos: windows
         formats: [zip]
@@ -19,7 +24,7 @@ builds:
       - amd64
       - arm64
 release:
-  prerelease: true
+  prerelease: "true"
   header: |
     [Pull Requests](https://github.com/suzuki-shunsuke/mkghtag/pulls?q=is%3Apr+milestone%3A{{.Tag}}) | [Issues](https://github.com/suzuki-shunsuke/mkghtag/issues?q=is%3Aissue+milestone%3A{{.Tag}}) | https://github.com/suzuki-shunsuke/mkghtag/compare/{{.PreviousTag}}...{{.Tag}}
 signs:
@@ -28,8 +33,6 @@ signs:
     signature: ${artifact}.sig
     certificate: ${artifact}.pem
     output: true
-    env:
-      - COSIGN_EXPERIMENTAL=1
     args:
       - sign-blob
       - --output-signature
