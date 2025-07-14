@@ -6,7 +6,7 @@ on:
 permissions: {}
 jobs:
   release:
-    uses: suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@feat-go-licenses
+    uses: suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@add-go-license
     with:
       go-version-file: go.mod
       aqua_version: v2.53.3
