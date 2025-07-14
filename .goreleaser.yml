@@ -35,6 +35,7 @@ signs:
     output: true
     args:
       - sign-blob
+      - "-y"
       - --output-signature
       - ${signature}
       - --output-certificate
