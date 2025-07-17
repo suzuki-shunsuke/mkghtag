@@ -72,6 +72,13 @@ homebrew_casks:
     # Default is false.
     skip_upload: true
 
+    hooks:
+      post:
+        install: |
+          if system_command("/usr/bin/xattr", args: ["-h"]).exit_status == 0
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/mkghtag"]
+          end
+
 scoops:
   -
     description: CLI to create GitHub Tags via API
