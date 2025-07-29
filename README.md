@@ -1,29 +1,8 @@
 # mkghtag
 
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/suzuki-shunsuke/mkghtag/badge)](https://scorecard.dev/viewer/?uri=github.com/suzuki-shunsuke/mkghtag)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/suzuki-shunsuke/mkghtag/badge)](https://scorecard.dev/viewer/?uri=github.com/suzuki-shunsuke/mkghtag) | [Install](INSTALL)
 
 CLI to create GitHub Tags via API
-
-## Install
-
-- Homebrew
-- [aqua](https://aquaproj.github.io/)
-- [GitHub Releases](https://github.com/suzuki-shunsuke/mkghtag/releases)
-- Windows
-  - [Scoop](https://scoop.sh/)
-
-```sh
-brew install suzuki-shunsuke/mkghtag/mkghtag
-```
-
-```sh
-aqua g -i suzuki-shunsuke/mkghtag
-```
-
-```sh
-scoop bucket add suzuki-shunsuke https://github.com/suzuki-shunsuke/scoop-bucket
-scoop install mkghtag
-```
 
 ## Usage
 
