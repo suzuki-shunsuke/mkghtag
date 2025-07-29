@@ -1,6 +1,6 @@
 # mkghtag
 
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/suzuki-shunsuke/mkghtag/badge)](https://scorecard.dev/viewer/?uri=github.com/suzuki-shunsuke/mkghtag) | [Install](INSTALL)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/suzuki-shunsuke/mkghtag/badge)](https://scorecard.dev/viewer/?uri=github.com/suzuki-shunsuke/mkghtag) | [Install](INSTALL.md)
 
 CLI to create GitHub Tags via API
 
