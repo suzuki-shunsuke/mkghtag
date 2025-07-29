@@ -27,22 +27,22 @@ release:
   prerelease: "true"
   header: |
     [Pull Requests](https://github.com/suzuki-shunsuke/mkghtag/pulls?q=is%3Apr+milestone%3A{{.Tag}}) | [Issues](https://github.com/suzuki-shunsuke/mkghtag/issues?q=is%3Aissue+milestone%3A{{.Tag}}) | https://github.com/suzuki-shunsuke/mkghtag/compare/{{.PreviousTag}}...{{.Tag}}
-signs:
-  - cmd: cosign
-    artifacts: checksum
-    signature: ${artifact}.sig
-    certificate: ${artifact}.pem
-    output: true
-    args:
-      - sign-blob
-      - "-y"
-      - --output-signature
-      - ${signature}
-      - --output-certificate
-      - ${certificate}
-      - --oidc-provider
-      - github
-      - ${artifact}
+# signs:
+#   - cmd: cosign
+#     artifacts: checksum
+#     signature: ${artifact}.sig
+#     certificate: ${artifact}.pem
+#     output: true
+#     args:
+#       - sign-blob
+#       - "-y"
+#       - --output-signature
+#       - ${signature}
+#       - --output-certificate
+#       - ${certificate}
+#       - --oidc-provider
+#       - github
+#       - ${artifact}
 homebrew_casks:
   -
     # NOTE: make sure the url_template, the token and given repo (github or gitlab) owner and name are from the
