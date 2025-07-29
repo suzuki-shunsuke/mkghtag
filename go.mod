@@ -1,6 +1,6 @@
 module github.com/suzuki-shunsuke/mkghtag
 
-go 1.23.1
+go 1.24.5
 
 require (
 	github.com/google/go-github/v73 v73.0.0
