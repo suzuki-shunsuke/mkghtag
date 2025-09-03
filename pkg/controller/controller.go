@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 
 	"github.com/sirupsen/logrus"
 	"github.com/suzuki-shunsuke/mkghtag/pkg/github"
@@ -18,8 +19,8 @@ type GitHub interface {
 	CreateTag(ctx context.Context, owner string, repo string, tag *github.Tag) (*github.Tag, *github.Response, error)
 }
 
-func New(ctx context.Context, url string) (*Controller, error) {
-	gh, err := github.New(ctx, url)
+func New(ctx context.Context, logger *slog.Logger, url, clientID string) (*Controller, error) {
+	gh, err := github.New(ctx, logger, url, clientID)
 	if err != nil {
 		return nil, err //nolint:wrapcheck
 	}

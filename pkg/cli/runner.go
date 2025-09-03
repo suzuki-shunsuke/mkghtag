@@ -14,6 +14,7 @@ import (
 	"github.com/suzuki-shunsuke/go-ci-env/v3/cienv"
 	"github.com/suzuki-shunsuke/mkghtag/pkg/controller"
 	"github.com/suzuki-shunsuke/mkghtag/pkg/log"
+	"github.com/suzuki-shunsuke/slog-logrus/slogrus"
 )
 
 type Runner struct {
@@ -171,7 +172,8 @@ Options:
 		"tag":        flags.Tag,
 	})
 
-	ctrl, err := controller.New(ctx, flags.GHEBaseURL)
+	clientID := os.Getenv("MKGHTAG_CLIENT_ID")
+	ctrl, err := controller.New(ctx, slogrus.Convert(logE), flags.GHEBaseURL, clientID)
 	if err != nil {
 		return err //nolint:wrapcheck
 	}
