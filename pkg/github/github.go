@@ -3,10 +3,12 @@ package github
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"os"
 
 	"github.com/google/go-github/v74/github"
+	"github.com/suzuki-shunsuke/ghtkn/pkg/api"
 	"golang.org/x/oauth2"
 )
 
@@ -21,7 +23,7 @@ type (
 	Tag           = github.Tag
 )
 
-func New(ctx context.Context, url string) (*Client, error) {
+func New(ctx context.Context, logger *slog.Logger, url, clientID string) (*Client, error) {
 	if url != "" {
 		client, err := github.NewClient(getHTTPClientForGitHub(ctx, getGitHubToken())).WithEnterpriseURLs(url, url)
 		if err != nil {
@@ -29,7 +31,18 @@ func New(ctx context.Context, url string) (*Client, error) {
 		}
 		return client, nil
 	}
-	return github.NewClient(getHTTPClientForGitHub(ctx, getGitHubToken())), nil
+	if clientID == "" {
+		return github.NewClient(getHTTPClientForGitHub(ctx, getGitHubToken())), nil
+	}
+	tm := api.New(api.NewInput())
+	token, err := tm.Get(ctx, logger, &api.InputGet{
+		ClientID:   clientID,
+		UseKeyring: true,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("get token using client id: %w", err)
+	}
+	return github.NewClient(getHTTPClientForGitHub(ctx, token.AccessToken)), nil
 }
 
 func getGitHubToken() string {
