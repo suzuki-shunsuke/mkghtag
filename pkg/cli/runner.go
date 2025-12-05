@@ -7,21 +7,21 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"log/slog"
 	"os"
 	"strings"
 
-	"github.com/sirupsen/logrus"
 	"github.com/suzuki-shunsuke/go-ci-env/v3/cienv"
 	"github.com/suzuki-shunsuke/mkghtag/pkg/controller"
-	"github.com/suzuki-shunsuke/mkghtag/pkg/log"
+	"github.com/suzuki-shunsuke/slog-util/slogutil"
 )
 
 type Runner struct {
-	Stdin   io.Reader
-	Stdout  io.Writer
-	Stderr  io.Writer
-	LDFlags *LDFlags
-	LogE    *logrus.Entry
+	Stdin       io.Reader
+	Stdout      io.Writer
+	Stderr      io.Writer
+	LDFlags     *LDFlags
+	LogLevelVar *slog.LevelVar
 }
 
 type LDFlags struct {
@@ -74,7 +74,7 @@ func setFlagVars(fs *flag.FlagSet, flags *Flags) {
 	fs.BoolVar(&flags.Help, "help", false, "Show the help message")
 }
 
-func (r *Runner) Run(ctx context.Context, args ...string) error { //nolint:funlen,cyclop
+func (r *Runner) Run(ctx context.Context, logger *slog.Logger, args ...string) error { //nolint:funlen,cyclop
 	flags := &Flags{}
 	if len(args) == 0 {
 		return errors.New("arguments are required")
@@ -164,18 +164,21 @@ Options:
 		flags.GHEBaseURL = os.Getenv("GITHUB_API_URL")
 	}
 
-	logE := r.LogE.WithFields(logrus.Fields{
-		"repo_owner": flags.Owner,
-		"repo_name":  flags.Repo,
-		"sha":        flags.SHA,
-		"tag":        flags.Tag,
-	})
+	if err := slogutil.SetLevel(r.LogLevelVar, flags.LogLevel); err != nil {
+		return fmt.Errorf("set log level: %w", err)
+	}
+
+	logger = logger.With(
+		"repo_owner", flags.Owner,
+		"repo_name", flags.Repo,
+		"sha", flags.SHA,
+		"tag", flags.Tag,
+	)
 
 	ctrl, err := controller.New(ctx, flags.GHEBaseURL)
 	if err != nil {
 		return err //nolint:wrapcheck
 	}
-	log.SetLevel(flags.LogLevel, logE)
 	param := &controller.ParamRun{
 		Owner:       flags.Owner,
 		Repo:        flags.Repo,
@@ -184,5 +187,5 @@ Options:
 		Tag:         flags.Tag,
 		LightWeight: flags.LightWeight,
 	}
-	return ctrl.Run(ctx, logE, param) //nolint:wrapcheck
+	return ctrl.Run(ctx, logger, param) //nolint:wrapcheck
 }
