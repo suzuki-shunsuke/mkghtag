@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 
-	"github.com/sirupsen/logrus"
 	"github.com/suzuki-shunsuke/mkghtag/pkg/github"
 )
 
@@ -41,7 +41,7 @@ func stringP(s string) *string {
 	return &s
 }
 
-func (c *Controller) Run(ctx context.Context, logE *logrus.Entry, param *ParamRun) error {
+func (c *Controller) Run(ctx context.Context, logger *slog.Logger, param *ParamRun) error {
 	if param.Owner == "" {
 		return errors.New("owner is required")
 	}
@@ -55,7 +55,7 @@ func (c *Controller) Run(ctx context.Context, logE *logrus.Entry, param *ParamRu
 		return errors.New("tag is required")
 	}
 
-	logE.Info("creating a reference")
+	logger.Info("creating a reference")
 	_, _, err := c.gh.CreateRef(ctx, param.Owner, param.Repo, &github.Reference{
 		Ref: stringP("refs/tags/" + param.Tag),
 		Object: &github.GitObject{
@@ -68,7 +68,7 @@ func (c *Controller) Run(ctx context.Context, logE *logrus.Entry, param *ParamRu
 	if param.LightWeight {
 		return nil
 	}
-	logE.Info("creating a tag")
+	logger.Info("creating a tag")
 	_, _, err = c.gh.CreateTag(ctx, param.Owner, param.Repo, &github.Tag{
 		Tag:     stringP(param.Tag),
 		SHA:     stringP(param.SHA),
