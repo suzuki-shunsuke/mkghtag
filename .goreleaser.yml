@@ -92,3 +92,27 @@ scoops:
 sboms:
   - id: default
     disable: false
+
+winget:
+  - publisher: suzuki-shunsuke
+    short_description: Create GitHub Tags via API
+    license: mit
+    publisher_support_url: https://github.com/suzuki-shunsuke/mkghtag/issues
+    url_template: "https://github.com/suzuki-shunsuke/mkghtag/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    homepage: https://github.com/suzuki-shunsuke/mkghtag
+    description: |
+      Create GitHub Tags via API.
+    license_url: https://github.com/suzuki-shunsuke/mkghtag/blob/main/LICENSE
+    skip_upload: true
+    release_notes_url: https://github.com/suzuki-shunsuke/mkghtag/releases/tag/{{.Tag}}
+    repository:
+      owner: suzuki-shunsuke
+      # owner: mini-core
+      name: winget-pkgs
+      branch: "mkghtag-{{.Version}}"
+      pull_request:
+        enabled: true
+        draft: true
+        base:
+          owner: minimum-core
+          name: winget-pkgs
