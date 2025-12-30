@@ -3,7 +3,7 @@ module github.com/suzuki-shunsuke/mkghtag
 go 1.24.5
 
 require (
-	github.com/google/go-github/v74 v74.0.0
+	github.com/google/go-github/v80 v80.0.0
 	github.com/suzuki-shunsuke/go-ci-env/v3 v3.3.0
 	github.com/suzuki-shunsuke/slog-error v0.2.1
 	github.com/suzuki-shunsuke/slog-util v0.2.2
