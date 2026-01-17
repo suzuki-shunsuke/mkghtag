@@ -13,8 +13,8 @@ github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWE
 github.com/mattn/go-isatty v0.0.20/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
 github.com/suzuki-shunsuke/go-ci-env/v3 v3.3.0 h1:1QLNzqHOx4ZYCMSRA5pTk8lH2Vh7K6NrNzdLitHTzuI=
 github.com/suzuki-shunsuke/go-ci-env/v3 v3.3.0/go.mod h1:bfoVZws4QhQEuqIhoQ7Gu8p3FUqbI08kWJC3Vv3akWI=
-github.com/suzuki-shunsuke/slog-error v0.2.1 h1:zcWOEo451RWmgusiONt/GueyvkTL7n4qA0ZJ3gTEjbA=
-github.com/suzuki-shunsuke/slog-error v0.2.1/go.mod h1:w45QyO2G0uiEuo9hhrcLqqRl3hmYon9jGgq9CrCxxOY=
+github.com/suzuki-shunsuke/slog-error v0.2.2 h1:z8rymlIlZcMA+ERnnhVigQ0Q+X0pxKqBfDzSIyGh6vU=
+github.com/suzuki-shunsuke/slog-error v0.2.2/go.mod h1:w45QyO2G0uiEuo9hhrcLqqRl3hmYon9jGgq9CrCxxOY=
 github.com/suzuki-shunsuke/slog-util v0.2.2 h1:sSAZvjWign2hE//CdFvcY0/vbHpGEpq70PH/DUX2BUg=
 github.com/suzuki-shunsuke/slog-util v0.2.2/go.mod h1:GBnGT/JhPyQ2lbwQM+M2MrsGuntdswcFi3vhk+z8Adw=
 golang.org/x/oauth2 v0.34.0 h1:hqK/t4AKgbqWkdkcAeI8XLmbK+4m4G5YeQRrmiotGlw=
