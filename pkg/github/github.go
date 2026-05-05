@@ -19,6 +19,8 @@ type (
 	GitObject     = github.GitObject
 	Commit        = github.Commit
 	Tag           = github.Tag
+	CreateRef     = github.CreateRef
+	CreateTag     = github.CreateTag
 )
 
 func New(ctx context.Context, url string) (*Client, error) {
