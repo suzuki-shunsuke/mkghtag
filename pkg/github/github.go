@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/google/go-github/v74/github"
+	"github.com/google/go-github/v85/github"
 	"golang.org/x/oauth2"
 )
 
@@ -19,6 +19,8 @@ type (
 	GitObject     = github.GitObject
 	Commit        = github.Commit
 	Tag           = github.Tag
+	CreateRef     = github.CreateRef
+	CreateTag     = github.CreateTag
 )
 
 func New(ctx context.Context, url string) (*Client, error) {

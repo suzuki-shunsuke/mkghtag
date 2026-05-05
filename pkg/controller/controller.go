@@ -14,8 +14,8 @@ type Controller struct {
 }
 
 type GitHub interface {
-	CreateRef(ctx context.Context, owner string, repo string, ref *github.Reference) (*github.Reference, *github.Response, error)
-	CreateTag(ctx context.Context, owner string, repo string, tag *github.Tag) (*github.Tag, *github.Response, error)
+	CreateRef(ctx context.Context, owner string, repo string, ref github.CreateRef) (*github.Reference, *github.Response, error)
+	CreateTag(ctx context.Context, owner string, repo string, tag github.CreateTag) (*github.Tag, *github.Response, error)
 }
 
 func New(ctx context.Context, url string) (*Controller, error) {
@@ -37,10 +37,6 @@ type ParamRun struct {
 	LightWeight bool
 }
 
-func stringP(s string) *string {
-	return &s
-}
-
 func (c *Controller) Run(ctx context.Context, logger *slog.Logger, param *ParamRun) error {
 	if param.Owner == "" {
 		return errors.New("owner is required")
@@ -56,11 +52,9 @@ func (c *Controller) Run(ctx context.Context, logger *slog.Logger, param *ParamR
 	}
 
 	logger.Info("creating a reference")
-	_, _, err := c.gh.CreateRef(ctx, param.Owner, param.Repo, &github.Reference{
-		Ref: stringP("refs/tags/" + param.Tag),
-		Object: &github.GitObject{
-			SHA: stringP(param.SHA),
-		},
+	_, _, err := c.gh.CreateRef(ctx, param.Owner, param.Repo, github.CreateRef{
+		Ref: "refs/tags/" + param.Tag,
+		SHA: param.SHA,
 	})
 	if err != nil {
 		return fmt.Errorf("create a reference: %w", err)
@@ -69,14 +63,11 @@ func (c *Controller) Run(ctx context.Context, logger *slog.Logger, param *ParamR
 		return nil
 	}
 	logger.Info("creating a tag")
-	_, _, err = c.gh.CreateTag(ctx, param.Owner, param.Repo, &github.Tag{
-		Tag:     stringP(param.Tag),
-		SHA:     stringP(param.SHA),
-		Message: stringP(param.Msg),
-		Object: &github.GitObject{
-			Type: stringP("commit"),
-			SHA:  stringP(param.SHA),
-		},
+	_, _, err = c.gh.CreateTag(ctx, param.Owner, param.Repo, github.CreateTag{
+		Tag:     param.Tag,
+		Message: param.Msg,
+		Object:  param.SHA,
+		Type:    "commit",
 	})
 	if err != nil {
 		return fmt.Errorf("create a tag: %w", err)
