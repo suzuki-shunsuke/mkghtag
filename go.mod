@@ -6,13 +6,13 @@ require (
 	github.com/google/go-github/v85 v85.0.0
 	github.com/suzuki-shunsuke/go-ci-env/v3 v3.3.0
 	github.com/suzuki-shunsuke/slog-error v0.2.2
-	github.com/suzuki-shunsuke/slog-util v0.2.2
+	github.com/suzuki-shunsuke/slog-util v0.3.2
 	golang.org/x/oauth2 v0.36.0
 )
 
 require (
 	github.com/google/go-querystring v1.2.0 // indirect
-	github.com/lmittmann/tint v1.1.2 // indirect
+	github.com/lmittmann/tint v1.1.3 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	golang.org/x/sys v0.29.0 // indirect
