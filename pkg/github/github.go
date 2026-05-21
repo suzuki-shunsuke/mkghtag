@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/google/go-github/v86/github"
+	"github.com/google/go-github/v87/github"
 	"golang.org/x/oauth2"
 )
 
@@ -24,14 +24,15 @@ type (
 )
 
 func New(ctx context.Context, url string) (*Client, error) {
+	opts := []github.ClientOptionsFunc{github.WithHTTPClient(getHTTPClientForGitHub(ctx, getGitHubToken()))}
 	if url != "" {
-		client, err := github.NewClient(getHTTPClientForGitHub(ctx, getGitHubToken())).WithEnterpriseURLs(url, url)
-		if err != nil {
-			return nil, fmt.Errorf("create a GHES client: %w", err)
-		}
-		return client, nil
+		opts = append(opts, github.WithEnterpriseURLs(url, url))
 	}
-	return github.NewClient(getHTTPClientForGitHub(ctx, getGitHubToken())), nil
+	client, err := github.NewClient(opts...)
+	if err != nil {
+		return nil, fmt.Errorf("create a GitHub client: %w", err)
+	}
+	return client, nil
 }
 
 func getGitHubToken() string {
