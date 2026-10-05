@@ -1,31 +1,6 @@
 {
   "checksums": [
     {
-      "id": "github_release/github.com/anchore/syft/v1.52.0/syft_1.52.0_darwin_amd64.tar.gz",
-      "checksum": "56975F5D7FFA9846A1EAF64330647841B878097BC7E3730CB9325F93ADD96917",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/anchore/syft/v1.52.0/syft_1.52.0_darwin_arm64.tar.gz",
-      "checksum": "014D561B6D13059124155F74A6C5A9A99501F5E209313638DD884F39EB418EE6",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/anchore/syft/v1.52.0/syft_1.52.0_linux_amd64.tar.gz",
-      "checksum": "CAEEDB81FB0491615F1EBD1761E4145D41EE86DD2CC7BF80669F9F5AD9D6133D",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/anchore/syft/v1.52.0/syft_1.52.0_linux_arm64.tar.gz",
-      "checksum": "C46D5E4C28E12AA4C5BECFAA343EF1C7F89045B6B895F2C21D471C62DB09C706",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/anchore/syft/v1.52.0/syft_1.52.0_windows_amd64.zip",
-      "checksum": "DE787A374CF961C56FD7B206B2E183295ABBA32D0AF3CB44D9AEF2357CA9EDA2",
-      "algorithm": "sha256"
-    },
-    {
       "id": "github_release/github.com/golangci/golangci-lint/v2.14.0/golangci-lint-2.14.0-darwin-amd64.tar.gz",
       "checksum": "A5667C1C3536BE1740133213E1E822BFB8F0D98EA12903174D6D5F635E4ED68D",
       "algorithm": "sha256"
@@ -81,31 +56,6 @@
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/int128/ghcp/v1.15.3/ghcp_darwin_amd64.zip",
-      "checksum": "5553FBA0E479EC6AE55A479399E64FE78A1B0242E85B8BE2C65E2BA6A1D4AEF9",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/int128/ghcp/v1.15.3/ghcp_darwin_arm64.zip",
-      "checksum": "83C8FB1E167ADBFBE767288E9679D1A34B8A59241E56F84379FF9B9E1AE709F2",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/int128/ghcp/v1.15.3/ghcp_linux_amd64.zip",
-      "checksum": "537B71C1382FC95C73702D4BA0FC1A2465842A1C20F9987D75B5C7581BA115EA",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/int128/ghcp/v1.15.3/ghcp_linux_arm64.zip",
-      "checksum": "4E4A750EAE73F3C63084E9E4A97B93FFC44DD60B64FF587DF98F7BFA85199901",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/int128/ghcp/v1.15.3/ghcp_windows_amd64.zip",
-      "checksum": "42B101DFAA7E7A66585ECBF262C2C2111BBD00E7CDB063B554BC7DF467744CB1",
-      "algorithm": "sha256"
-    },
-    {
       "id": "github_release/github.com/reviewdog/reviewdog/v0.21.2/reviewdog_0.21.2_Darwin_arm64.tar.gz",
       "checksum": "54497B0F3378936CAA22A3A11D796ACEFE4D5F35D86F5CC84C622F941C3C0C68",
       "algorithm": "sha256"
@@ -133,31 +83,6 @@
     {
       "id": "github_release/github.com/reviewdog/reviewdog/v0.21.2/reviewdog_0.21.2_Windows_x86_64.tar.gz",
       "checksum": "397959E250BFC6BC801FBA34B7D4922F2EAA4763DEACF7D32EF11BFFB284A315",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/sigstore/cosign/v3.1.3/cosign-darwin-amd64",
-      "checksum": "2347488E5D5B25336644024DFECA5601B190E91197A71A917BDA44744AFF106C",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/sigstore/cosign/v3.1.3/cosign-darwin-arm64",
-      "checksum": "5CF948C2F4DFE59687BDD0B8523709067383E03982CC543475C8A7DC70E92A76",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/sigstore/cosign/v3.1.3/cosign-linux-amd64",
-      "checksum": "4629C757B7618056F8DDD7E2625AE9FDD94C0372A65049520BC7D9DF9EFC7F71",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/sigstore/cosign/v3.1.3/cosign-linux-arm64",
-      "checksum": "C5D324E091826B0D7A78EB16FEF316450B4EB9AAEC045611C08BA06F5E73220A",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/sigstore/cosign/v3.1.3/cosign-windows-amd64.exe",
-      "checksum": "9FE59BE0ECA1271873CE019061335EB1AC419B7059202E797828467DDABE33BE",
       "algorithm": "sha256"
     },
     {
