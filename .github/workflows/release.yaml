@@ -6,10 +6,10 @@ on:
 permissions: {}
 jobs:
   release:
-    uses: suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@embed-dep
+    uses: suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@feat-secure-release
     with:
       go-version-file: go.mod
-      aqua_version: v2.63.0
+      aqua_version: v2.64.0
     secrets:
       TAKUMI_GUARD_BOT_ID: ${{secrets.TAKUMI_GUARD_BOT_ID}}
     permissions:
