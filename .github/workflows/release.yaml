@@ -6,10 +6,11 @@ on:
 permissions: {}
 jobs:
   release:
-    uses: suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@e51f0489838572acbab6eb550c56a4aac220dd48 # v10.0.1
+    uses: suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@add-packslip
     with:
       go-version-file: go.mod
       aqua_version: v2.64.0
+      packslip: true
     secrets:
       TAKUMI_GUARD_BOT_ID: ${{secrets.TAKUMI_GUARD_BOT_ID}}
     permissions:
