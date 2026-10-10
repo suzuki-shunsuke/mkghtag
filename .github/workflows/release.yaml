@@ -6,7 +6,7 @@ on:
 permissions: {}
 jobs:
   release:
-    uses: suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@74788090c8e839b7cb91957bb22847704ba9e7cd # add-packslip
+    uses: suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@add-packslip
     with:
       go-version-file: go.mod
       aqua_version: v2.64.0
