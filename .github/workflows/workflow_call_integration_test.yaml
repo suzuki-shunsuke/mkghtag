@@ -1,0 +1,26 @@
+---
+name: integration test
+on:
+  workflow_call:
+
+jobs:
+  integration-test:
+    # Go modules are downloaded by the gomodule job in the caller workflow
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: read
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: false
+
+      - name: Restore Go modules
+        uses: suzuki-shunsuke/download-go-module-action/restore@e41b50de59a715fcc3dc9fd54f43d030749942c8 # v0.0.6
+
+      - run: go install ./cmd/mkghtag
+      - run: mkghtag --version
