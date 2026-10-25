@@ -53,8 +53,9 @@ Please unarchive it and install a pre built binary into `$PATH`.
 You can verify downloaded assets using some tools.
 
 1. [GitHub CLI](https://cli.github.com/)
-1. [slsa-verifier](https://github.com/slsa-framework/slsa-verifier)
 1. [Cosign](https://github.com/sigstore/cosign)
+1. [Packslip](https://packslip.dev/) `mkghtag >= v0.1.16`
+1. [slsa-verifier](https://github.com/slsa-framework/slsa-verifier) `mkghtag <= v0.1.11`
 
 ### 1. GitHub CLI
 
@@ -65,7 +66,7 @@ aqua g -i cli/cli
 ```
 
 ```sh
-version=v0.1.10
+version=v0.1.16
 asset=mkghtag_darwin_arm64.tar.gz
 gh release download -R suzuki-shunsuke/mkghtag "$version" -p "$asset"
 gh attestation verify "$asset" \
@@ -73,25 +74,7 @@ gh attestation verify "$asset" \
   --signer-workflow suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml
 ```
 
-### 2. slsa-verifier
-
-You can install slsa-verifier by aqua.
-
-```sh
-aqua g -i slsa-framework/slsa-verifier
-```
-
-```sh
-version=v0.1.10
-asset=mkghtag_darwin_arm64.tar.gz
-gh release download -R suzuki-shunsuke/mkghtag "$version" -p "$asset" -p multiple.intoto.jsonl
-slsa-verifier verify-artifact "$asset" \
-  --provenance-path multiple.intoto.jsonl \
-  --source-uri github.com/suzuki-shunsuke/mkghtag \
-  --source-tag "$version"
-```
-
-### 3. Cosign
+### 2. Cosign
 
 You can install Cosign by aqua.
 
@@ -99,8 +82,30 @@ You can install Cosign by aqua.
 aqua g -i sigstore/cosign
 ```
 
+From mkghtag v0.1.16, the bundle file is `mkghtag_<version>_checksums.txt.sigstore.json`.
+Cosign v2.4.2 or later is required.
+
 ```sh
-version=v0.1.10
+version=v0.1.16
+checksum_file="mkghtag_${version#v}_checksums.txt"
+asset=mkghtag_darwin_arm64.tar.gz
+gh release download "$version" \
+  -R suzuki-shunsuke/mkghtag \
+  -p "$asset" \
+  -p "$checksum_file" \
+  -p "${checksum_file}.sigstore.json"
+cosign verify-blob \
+  "$checksum_file" \
+  --bundle "${checksum_file}.sigstore.json" \
+  --certificate-identity-regexp 'https://github\.com/suzuki-shunsuke/go-release-workflow/\.github/workflows/release\.yaml@.*' \
+  --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
+cat "$checksum_file" | sha256sum -c --ignore-missing -
+```
+
+For mkghtag v0.1.11 or older, `*.pem` and `*.sig` are available instead.
+
+```sh
+version=v0.1.11
 checksum_file="mkghtag_${version#v}_checksums.txt"
 asset=mkghtag_darwin_arm64.tar.gz
 gh release download "$version" \
@@ -115,5 +120,52 @@ cosign verify-blob \
   --certificate-identity-regexp 'https://github\.com/suzuki-shunsuke/go-release-workflow/\.github/workflows/release\.yaml@.*' \
   --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
   "$checksum_file"
-cat "$checksum_file" | sha256sum -c --ignore-missing
+cat "$checksum_file" | sha256sum -c --ignore-missing -
+```
+
+### 3. Packslip
+
+`mkghtag >= v0.1.16`
+
+You can install packslip by aqua.
+
+```sh
+aqua g -i jdx/packslip
+```
+
+```sh
+version=v0.1.16
+asset=mkghtag_darwin_arm64.tar.gz
+gh release download -R suzuki-shunsuke/mkghtag "$version" -p "$asset" -p packslip.sigstore.json
+packslip verify packslip.sigstore.json \
+    --pin ps1_xfjx4bjm6cpir2jd2yovxlyqxm \
+    --identity-prefix https://github.com/suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@ \
+    --artifact "$asset"
+```
+
+- `--pin` requires the release to be signed from the repository `suzuki-shunsuke/mkghtag`, identified by its repository ID rather than its name
+- `--identity-prefix` requires the release to be signed by the release workflow of [suzuki-shunsuke/go-release-workflow](https://github.com/suzuki-shunsuke/go-release-workflow)
+
+On success, packslip prints a line starting with `ok:`.
+Please make sure it shows the project and version you meant, e.g. `github.com/suzuki-shunsuke/mkghtag 0.1.16`.
+
+### 4. slsa-verifier
+
+> [!WARNING]
+> As of mkghtag v0.1.16, `multiple.intoto.jsonl` hasn't been published anymore.
+
+You can install slsa-verifier by aqua.
+
+```sh
+aqua g -i slsa-framework/slsa-verifier
+```
+
+```sh
+version=v0.1.11
+asset=mkghtag_darwin_arm64.tar.gz
+gh release download -R suzuki-shunsuke/mkghtag "$version" -p "$asset" -p multiple.intoto.jsonl
+slsa-verifier verify-artifact "$asset" \
+  --provenance-path multiple.intoto.jsonl \
+  --source-uri github.com/suzuki-shunsuke/mkghtag \
+  --source-tag "$version"
 ```
